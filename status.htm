@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Deploy status</title>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+	<link rel="stylesheet" href="css/site.css">
+	<script>
+		$(function () {
+			var socket = io();
+			window.deploymentManifest = window.deploymentManifest || [];
+			socket.emit("get manifest");
+
+			socket.on("new deployment", function(dep){
+				window.deploymentManifest[dep.envName] = dep;
+				FindOrCreateDeployment(dep);
+			});
+
+			socket.on("deployment manifest", function(deps){
+				$.each(deps, function(i, dep){
+					window.deploymentManifest.push(dep);
+					FindOrCreateDeployment(dep.dep);
+				});
+			});
+
+			socket.on("deployment update", function(dep){
+				window.deploymentManifest[dep.envName] = dep;
+				FindOrCreateDeployment(dep);
+			});
+
+
+			function FindOrCreateDeployment(dep){
+				var depSelector = `[data-env='${dep.envName}']`;
+				var existingDeployment = $(depSelector);
+				var deps = $("#messages");
+
+				var percentageCompleted = dep.currentfilecount === 0 ? 0 : ((dep.initialcount - dep.currentfilecount)/dep.initialcount) * 100;
+				var content = `<div class='env'>${dep.envName}</div> <div class='currentcount'>${percentageCompleted}%</div>`;
+				if(existingDeployment.length !== 0)
+				{
+					existingDeployment.html(content);
+				}
+				else
+				{
+					var newDepElem = $(`<li data-env='${dep.envName}'> ${content} </li>`);
+					deps.append(newDepElem);
+				}
+			}
+		});
+	</script>
+</head>
+<body>
+	<ul id="messages"></ul>
+</body>
+</html>

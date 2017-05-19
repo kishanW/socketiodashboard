@@ -1,0 +1,80 @@
+*{
+	font-family: 'Roboto Condensed', sans-serif;
+	outline: none !important;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	-webkit-transition: all .2s ease-in-out;
+	-o-transition: all .2s ease-in-out;
+	transition: all .2s ease-in-out;
+}
+
+hr {
+	border: none;
+	border-top: 1px solid rgba(0,0,0,0.3);
+}
+body{
+	padding: 10px;
+	/* background-color: #DFEAE4; */
+}
+#messages{
+	display: inline-block;
+	color: #555;
+}
+#messages li{
+	display: inline-block;
+	width: 300px;
+	margin: 0 10px 10px 0;
+}
+
+#messages li .env::before{
+	display: inline-block;
+	width: 100%;
+	content: "environment";
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 12px;
+}
+#messages li .currentcount::before{
+	display: inline-block;
+	width: 100%;
+	content: "Completed Percentage";
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 12px;
+}
+#messages li .initcount::before{
+	display: inline-block;
+	width: 100%;
+	content: "Initial Count";
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 12px;
+}
+
+#messages li .env{
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	padding: 10px;
+	font-size: 30px;
+	padding: 20px;
+	background-color: #3F51B5;
+	color: #fff;
+}
+#messages li .currentcount{
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	background-color: #F6BB42;
+	font-size: 30px;
+	padding: 20px;
+}
+#messages li .initcount{
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	background-color: #FFCE54;
+	font-size: 30px;
+	padding: 20px;
+}
