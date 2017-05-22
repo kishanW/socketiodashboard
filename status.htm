@@ -39,8 +39,8 @@
 				var deps = $("#messages");			
 				
 				var content = dep.percentageComplete !== 100 
-				? `<div class='env'>${dep.envName}</div> <div class='currentcount'>${dep.percentageComplete}%</div>`
-				: `<div class='env'>${dep.envName}</div> <div class='currentcount'><i class='fa fa-check' aria-hidden='true'></i>${dep.percentageComplete}%</div>`;
+								? `<div class='env'>${dep.envName}</div> <div class='currentcount'>${dep.percentageComplete}%</div>`
+								: `<div class='env'>${dep.envName}</div> <div class='currentcount'><i class='fa fa-check' aria-hidden='true'></i>${dep.percentageComplete}%</div>`;
 				if(depElement.length !== 0)
 				{
 					depElement.html(content);

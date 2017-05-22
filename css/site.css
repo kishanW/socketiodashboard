@@ -74,16 +74,16 @@ body{
 
 #messages li[data-percentage-complete="100"] .env{
 	background-color: #ddd;
-    color: rgba(0,0,0,0.5);
+	color: rgba(0,0,0,0.5);
 }
 #messages li[data-percentage-complete="100"] .currentcount i.fa{
 	background-color: #fff;
-    color: #4CAF50;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    border-radius: 50%;
-    font-size: 25px;
+	color: #4CAF50;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	border-radius: 50%;
+	font-size: 25px;
 }
 #messages li[data-percentage-complete="100"] .currentcount{
 	background-color: #aaa;
