@@ -6,6 +6,8 @@
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/animate.css">
 	<link rel="stylesheet" href="css/site.css">
 	<script>
 		$(function () {
@@ -20,7 +22,7 @@
 
 			socket.on("deployment manifest", function(deps){
 				$.each(deps, function(i, dep){
-					window.deploymentManifest.push(dep);
+					window.deploymentManifest[dep.envName] = dep;
 					FindOrCreateDeployment(dep.dep);
 				});
 			});
@@ -33,20 +35,22 @@
 
 			function FindOrCreateDeployment(dep){
 				var depSelector = `[data-env='${dep.envName}']`;
-				var existingDeployment = $(depSelector);
-				var deps = $("#messages");
-
-				var percentageCompleted = dep.currentfilecount === 0 ? 0 : ((dep.initialcount - dep.currentfilecount)/dep.initialcount) * 100;
-				var content = `<div class='env'>${dep.envName}</div> <div class='currentcount'>${percentageCompleted}%</div>`;
-				if(existingDeployment.length !== 0)
+				var depElement = $(depSelector);
+				var deps = $("#messages");			
+				
+				var content = dep.percentageComplete !== 100 
+				? `<div class='env'>${dep.envName}</div> <div class='currentcount'>${dep.percentageComplete}%</div>`
+				: `<div class='env'>${dep.envName}</div> <div class='currentcount'><i class='fa fa-check' aria-hidden='true'></i>${dep.percentageComplete}%</div>`;
+				if(depElement.length !== 0)
 				{
-					existingDeployment.html(content);
+					depElement.html(content);
 				}
 				else
 				{
-					var newDepElem = $(`<li data-env='${dep.envName}'> ${content} </li>`);
-					deps.append(newDepElem);
+					depElement = $(`<li data-env='${dep.envName}' class='animated bounceIn'> ${content} </li>`);
+					deps.append(depElement);
 				}
+				depElement.attr("data-percentage-complete", dep.percentageComplete);
 			}
 		});
 	</script>

@@ -17,13 +17,16 @@ app.get('/', function(req, res){
 
 app.get('/startdeployment', function(req, res){
 	var envName = req.query.env.toLowerCase();
+	removeOldDeployments(envName);
+
 	var newDeployment = {
 		envName: envName,
 		initialcount: req.query.count,
-		currentfilecount: 0
+		currentfilecount: 0,
+		percentageComplete: 0
 	};
 	io.deplopyments[io.deplopyments.length] = {
-		envName: envName, 
+		envName: envName, 		
 		dep: newDeployment
 	};
 
@@ -41,7 +44,17 @@ app.get('/updatecount', function(req, res){
 	if(dep)
 	{
 		dep.currentfilecount = filecount;
-		console.log(`deployment update in ${envName} - new file count: ${filecount}`);
+		if(dep.initialcount === "0")
+		{
+			dep.percentageComplete = 100;
+		}
+		else
+		{
+			dep.percentageComplete = ((dep.initialcount - dep.currentfilecount)/dep.initialcount) * 100;
+		}
+
+		console.log(`deployment update in ${envName} - new file count: ${filecount} - ${dep.percentageComplete}% done`);
+		
 		io.sockets.emit("deployment update", dep);
 		res.send('<h1>' + filecount + '</h1>');
 	}
@@ -77,3 +90,7 @@ function findDeployment(envName){
 	var dep = lodash.filter(io.deplopyments, x=> x.envName === envName);
     return dep;
 };
+
+function removeOldDeployments(envName){
+	lodash.remove(io.deplopyments, x=> x.envName === envName);
+}
