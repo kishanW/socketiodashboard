@@ -1,0 +1,20 @@
+{
+  "name": "npmfilecountdashboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "file-count.js",
+  "dependencies": {
+    "express": "^4.15.3",
+    "socket.io": "^2.0.1"
+  },
+  "devDependencies": {
+    "express": "^4.15.3",
+    "lodash": "^4.17.4",
+    "socket.io": "^2.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "KishanW",
+  "license": "ISC"
+}
